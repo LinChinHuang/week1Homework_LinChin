@@ -3,42 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Omu.ValueInjecter;
 using week1Homework_LinChin.Models;
 using week1Homework_LinChin.Models.Models;
-using Omu.ValueInjecter;
+
 namespace week1Homework_LinChin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class CourseInstructorController : ControllerBase
     {
         private readonly ContosoUniversityContext db;
-        public CourseController(ContosoUniversityContext db)
+        public CourseInstructorController(ContosoUniversityContext db)
         {
             this.db = db;
         }
 
         [HttpGet("")]
-        public ActionResult<IEnumerable<Course>> GetCourses()
+        public ActionResult<IEnumerable<CourseInstructor>> GetCourseInstructors()
         {
-            return this.db.Course;
+            return db.CourseInstructor;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Course> GetCourseById(int id)
+        public ActionResult<CourseInstructor> GetCourseInstructorById(int id)
         {
-            var Course = this.db.Course.Find(id);
-            if(Course == null) {
-                return NotFound();
-            }
-            return this.db.Course.Find(id);
+            return db.CourseInstructor.Find(id);
         }
 
         [HttpPost("")]
-        public ActionResult<Course> PostCourse(Course model)
+        public ActionResult<CourseInstructor> PostCourseInstructor(CourseInstructor model)
         {
             if (model != null) {
-                this.db.Course.Add(model);
+                this.db.CourseInstructor.Add(model);
                 this.db.SaveChanges();
                 return Ok(model);
             }
@@ -46,9 +43,9 @@ namespace week1Homework_LinChin.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Course> PutCourse(int id, Course model)
+        public IActionResult PutCourseInstructor(int id, CourseInstructor model)
         {
-            var course = this.db.Course.Find(id);
+            var course = this.db.CourseInstructor.Find(id);
             if(course == null) {
                 return NotFound();
             }
@@ -58,11 +55,11 @@ namespace week1Homework_LinChin.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Course> DeleteCourseById(int id)
+        public ActionResult<CourseInstructor> DeleteCourseInstructorById(int id)
         {
-            var delCourse = this.db.Course.Find(id);
-            if (delCourse != null) {
-                this.db.Entry(delCourse).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            var delCourseInstructor = this.db.CourseInstructor.Find(id);
+            if (delCourseInstructor != null) {
+                this.db.Entry(delCourseInstructor).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
                 this.db.SaveChanges();
             }
             

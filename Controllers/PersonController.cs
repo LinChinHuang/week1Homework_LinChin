@@ -3,42 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Omu.ValueInjecter;
 using week1Homework_LinChin.Models;
 using week1Homework_LinChin.Models.Models;
-using Omu.ValueInjecter;
+
 namespace week1Homework_LinChin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class PersonController : ControllerBase
     {
         private readonly ContosoUniversityContext db;
-        public CourseController(ContosoUniversityContext db)
+        public PersonController(ContosoUniversityContext db)
         {
             this.db = db;
         }
 
         [HttpGet("")]
-        public ActionResult<IEnumerable<Course>> GetCourses()
+        public ActionResult<IEnumerable<Person>> GetPersons()
         {
-            return this.db.Course;
+            return db.Person;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Course> GetCourseById(int id)
+        public ActionResult<Person> GetPersonById(int id)
         {
-            var Course = this.db.Course.Find(id);
-            if(Course == null) {
-                return NotFound();
-            }
-            return this.db.Course.Find(id);
+            return db.Person.Find(id);
         }
 
         [HttpPost("")]
-        public ActionResult<Course> PostCourse(Course model)
+        public ActionResult<Person> PostPerson(Person model)
         {
             if (model != null) {
-                this.db.Course.Add(model);
+                this.db.Person.Add(model);
                 this.db.SaveChanges();
                 return Ok(model);
             }
@@ -46,9 +43,9 @@ namespace week1Homework_LinChin.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Course> PutCourse(int id, Course model)
+        public IActionResult PutPerson(int id, Person model)
         {
-            var course = this.db.Course.Find(id);
+            var course = this.db.Person.Find(id);
             if(course == null) {
                 return NotFound();
             }
@@ -58,11 +55,11 @@ namespace week1Homework_LinChin.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Course> DeleteCourseById(int id)
+        public ActionResult<Person> DeletePersonById(int id)
         {
-            var delCourse = this.db.Course.Find(id);
-            if (delCourse != null) {
-                this.db.Entry(delCourse).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+             var delPerson = this.db.Person.Find(id);
+            if (delPerson != null) {
+                this.db.Entry(delPerson).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
                 this.db.SaveChanges();
             }
             
