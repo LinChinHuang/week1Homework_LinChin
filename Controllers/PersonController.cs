@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Omu.ValueInjecter;
 using System.Collections.Generic;
+using System.Linq;
 using week1Homework_LinChin.Models;
 
 namespace week1Homework_LinChin.Controllers
@@ -13,18 +15,19 @@ namespace week1Homework_LinChin.Controllers
         public PersonController(ContosoUniversityContext db)
         {
             this.db = db;
+            this.db.SavingChanges += context_SavingChanges;
         }
 
         [HttpGet("")]
         public ActionResult<IEnumerable<Person>> GetPersons()
         {
-            return db.Person;
+            return db.Person.Where(c => c.IsDeleted == false).ToList();
         }
 
         [HttpGet("{id}")]
         public ActionResult<Person> GetPersonById(int id)
         {
-            return db.Person.Find(id);
+            return db.Person.Where(c =>  c.Id == id && c.IsDeleted == false).FirstOrDefault();
         }
 
         [HttpPost("")]
@@ -53,11 +56,11 @@ namespace week1Homework_LinChin.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Person> DeletePersonById(int id)
         {
-            this.db.SavingChanges += context_SavingChanges;
+            
             var delPerson = this.db.Person.Find(id);
             if (delPerson != null) {
                 delPerson.IsDeleted = true;
-                this.db.Entry(delPerson).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                this.db.Entry(delPerson).State = EntityState.Modified;
                 this.db.SaveChanges();
             }
             

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using week1Homework_LinChin.Controllers;
 using week1Homework_LinChin.Models;
 
 namespace week1Homework_LinChin
@@ -23,7 +24,8 @@ namespace week1Homework_LinChin
         {
             services.AddDbContext<ContosoUniversityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            //services.AddScoped(typeof(ContosoUniversityContext), typeof( ContosoUniversityContextProcedures));
+            //services.AddScoped(typeof(ContosoUniversityContextProcedures), typeof(DepartmentController));
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSwaggerGen(c =>
             {

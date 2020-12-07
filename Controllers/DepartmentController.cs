@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using week1Homework_LinChin.Models;
 
@@ -18,18 +19,21 @@ namespace week1Homework_LinChin.Controllers
         public DepartmentController(ContosoUniversityContext db)
         {
             this.db = db;
+            this.db.SavingChanges += context_SavingChanges;
         }
 
         [HttpGet("")]
         public ActionResult<IEnumerable<Department>> GetDepartments()
         {
-            return db.Department;
+            return db.Department.Where(c => c.IsDeleted == false).ToList();
         }
 
         [HttpGet("{id}")]
         public ActionResult<Department> GetDepartmentById(int id)
         {
-            return db.Department.Find(id);
+            return db.Department
+                .Where(c => c.DepartmentId == id && c.IsDeleted == false)
+                .FirstOrDefault();
         }
 
         [HttpPost("")]
@@ -80,12 +84,12 @@ namespace week1Homework_LinChin.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Department_DeleteResult> DeleteDepartmentById(int id)
         {
-            this.db.SavingChanges += context_SavingChanges;
+            
             var delDepartment = this.db.Department.Find(id);
             if (delDepartment != null)
             {
                 delDepartment.IsDeleted = true;
-                this.db.Entry(delDepartment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                this.db.Entry(delDepartment).State = EntityState.Modified;
                 this.db.SaveChanges();
             }
 

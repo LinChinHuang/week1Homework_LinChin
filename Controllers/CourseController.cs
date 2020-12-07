@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Omu.ValueInjecter;
 using System;
 using System.Collections.Generic;
@@ -15,22 +16,23 @@ namespace week1Homework_LinChin.Controllers
         public CourseController(ContosoUniversityContext db)
         {
             this.db = db;
+            this.db.SavingChanges += context_SavingChanges;
         }
 
         [HttpGet("")]
         public ActionResult<IEnumerable<Course>> GetCourses()
         {
-            return this.db.Course;
+            return this.db.Course.Where(c => c.IsDeleted == false).ToList();
         }
 
         [HttpGet("{id}")]
         public ActionResult<Course> GetCourseById(int id)
         {
-            var Course = this.db.Course.Find(id);
-            if(Course == null) {
+            var course = this.db.Course.Where(c => c.CourseId == id && c.IsDeleted == false).FirstOrDefault();
+            if(course == null) {
                 return NotFound();
             }
-            return this.db.Course.Find(id);
+            return course;
         }
 
         [HttpPost("")]
@@ -59,11 +61,11 @@ namespace week1Homework_LinChin.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Course> DeleteCourseById(int id)
         {
-            this.db.SavingChanges += context_SavingChanges;
+            
             var delCourse = this.db.Course.Find(id);
             if (delCourse != null) {
                 delCourse.IsDeleted = true;
-                this.db.Entry(delCourse).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                this.db.Entry(delCourse).State = EntityState.Modified;
                 this.db.SaveChanges();
             }
             
