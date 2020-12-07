@@ -9,6 +9,7 @@ using week1Homework_LinChin.Models;
 using week1Homework_LinChin.Models.Models;
 using Microsoft.Data.SqlClient;
 
+
 namespace week1Homework_LinChin.Controllers
 {
     [Route("api/[controller]")]
@@ -35,39 +36,48 @@ namespace week1Homework_LinChin.Controllers
         }
 
         [HttpPost("")]
-        public ActionResult<Department> PostDepartment(Department model)
+        public ActionResult<Department_InsertResult> PostDepartment(Department model)
         {
              if (model != null) {
-                 this.db.Department.FromSqlRaw("");
-                this.db.Department.Add(model);
-                this.db.SaveChanges();
-                return Ok(model);
+                 var name = new SqlParameter("@Name", model.Name);
+                 var budget = new SqlParameter("@Budget", model.Budget);
+                 var startDate = new SqlParameter("@StartDate", DateTime.Now);
+                 var instructorID = new SqlParameter("@InstructorID", model.InstructorId);
+                 this.db.Database.ExecuteSqlRaw("EXEC [dbo].[Department_Insert] @Name,@Budget,@StartDate,@InstructorID",name,budget,startDate,instructorID);
+                return Ok(model);//Department_InsertResult return object need to update
             }
             return null;
         }
 
         [HttpPut("{id}")]
-        public IActionResult PutDepartment(int id, Department model)
+        public ActionResult<Department_UpdateResult> PutDepartment(int id, Department model)
         {
-            var course = this.db.Department.Find(id);
-            if(course == null) {
-                return NotFound();
+            var department = this.db.Department.Find(id);
+            if (department != null) {
+                var departId = new SqlParameter("@DepartmentID", id);
+                var name = new SqlParameter("@Name", model.Name);
+                var budget = new SqlParameter("@Budget", model.Budget);
+                var startDate = new SqlParameter("@StartDate", model.StartDate);
+                var instructorID = new SqlParameter("@InstructorID", model.InstructorId);
+                var oriVer = new SqlParameter("@RowVersion_Original", model.RowVersion);
+                this.db.Database.ExecuteSqlRaw("EXEC [dbo].[Department_Update] @DepartmentID,@Name,@Budget,@StartDate,@InstructorID,@RowVersion_Original",departId,name,budget,startDate,instructorID,oriVer);
             }
-            course.InjectFrom(model);//使用ValueInjecter範例
-            this.db.SaveChanges();
-            return NoContent();
+                            
+            return new Department_UpdateResult(){  RowVersion = department.RowVersion };
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Department> DeleteDepartmentById(int id)
+        public ActionResult<Department_DeleteResult> DeleteDepartmentById(int id)
         {
-           var delDepartment = this.db.Department.Find(id);
-            if (delDepartment != null) {
-                this.db.Entry(delDepartment).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
-                this.db.SaveChanges();
-            }
-            
-            return null;
+            int delCount = 0;
+                var department = this.db.Department.Find(id);
+                if (department != null) {
+                    var departId = new SqlParameter("@DepartmentID", department.DepartmentId);
+                    var oriVer = new SqlParameter("@RowVersion_Original", department.RowVersion);
+                    delCount =  this.db.Database.ExecuteSqlRaw("EXEC [dbo].[Department_Delete] @DepartmentID,@RowVersion_Original",departId,oriVer);
+                }
+                            
+            return new Department_DeleteResult(){ DeleteCount = delCount };
         }
 
         [HttpGet("DepartmentCourseCount")]

@@ -7,5 +7,6 @@ namespace week1Homework_LinChin.Models.Models
 {
     public partial class Department_DeleteResult
     {
+        public int DeleteCount {get;set;}
     }
 }
