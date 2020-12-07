@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Omu.ValueInjecter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using week1Homework_LinChin.Models;
@@ -8,7 +9,7 @@ namespace week1Homework_LinChin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class CourseController : MyControllerBase
     {
         private readonly ContosoUniversityContext db;
         public CourseController(ContosoUniversityContext db)
@@ -58,9 +59,11 @@ namespace week1Homework_LinChin.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Course> DeleteCourseById(int id)
         {
+            this.db.SavingChanges += context_SavingChanges;
             var delCourse = this.db.Course.Find(id);
             if (delCourse != null) {
-                this.db.Entry(delCourse).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                delCourse.IsDeleted = true;
+                this.db.Entry(delCourse).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 this.db.SaveChanges();
             }
             

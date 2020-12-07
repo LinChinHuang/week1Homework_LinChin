@@ -7,7 +7,7 @@ namespace week1Homework_LinChin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonController : ControllerBase
+    public class PersonController : MyControllerBase
     {
         private readonly ContosoUniversityContext db;
         public PersonController(ContosoUniversityContext db)
@@ -53,9 +53,11 @@ namespace week1Homework_LinChin.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Person> DeletePersonById(int id)
         {
-             var delPerson = this.db.Person.Find(id);
+            this.db.SavingChanges += context_SavingChanges;
+            var delPerson = this.db.Person.Find(id);
             if (delPerson != null) {
-                this.db.Entry(delPerson).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                delPerson.IsDeleted = true;
+                this.db.Entry(delPerson).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 this.db.SaveChanges();
             }
             

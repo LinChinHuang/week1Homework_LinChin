@@ -11,7 +11,7 @@ namespace week1Homework_LinChin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DepartmentController : ControllerBase
+    public class DepartmentController : MyControllerBase
     {
         private readonly ContosoUniversityContext db;
 
@@ -63,8 +63,8 @@ namespace week1Homework_LinChin.Controllers
             return new Department_UpdateResult(){  RowVersion = department.RowVersion };
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<Department_DeleteResult> DeleteDepartmentById(int id)
+        [HttpDelete("{id}/{RowVersion}")]
+        public ActionResult<Department_DeleteResult> DeleteDepartmentById(int id,string RowVersion)
         {
             int delCount = 0;
                 var department = this.db.Department.Find(id);
@@ -74,6 +74,21 @@ namespace week1Homework_LinChin.Controllers
                     delCount =  this.db.Database.ExecuteSqlRaw("EXEC [dbo].[Department_Delete] @DepartmentID,@RowVersion_Original",departId,oriVer);
                 }
                             
+            return new Department_DeleteResult();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<Department_DeleteResult> DeleteDepartmentById(int id)
+        {
+            this.db.SavingChanges += context_SavingChanges;
+            var delDepartment = this.db.Department.Find(id);
+            if (delDepartment != null)
+            {
+                delDepartment.IsDeleted = true;
+                this.db.Entry(delDepartment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                this.db.SaveChanges();
+            }
+
             return new Department_DeleteResult();
         }
 
