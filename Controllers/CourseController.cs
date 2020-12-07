@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using week1Homework_LinChin.Models;
 using week1Homework_LinChin.Models.Models;
 using Omu.ValueInjecter;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
+
 namespace week1Homework_LinChin.Controllers
 {
     [Route("api/[controller]")]
@@ -68,5 +71,26 @@ namespace week1Homework_LinChin.Controllers
             
             return null;
         }
+
+
+        [HttpGet("CourseStudents")]
+        public ActionResult<IEnumerable<VwCourseStudents>> GetCourseStudents(int id)
+        {
+            if (id > 0)
+                return this.db.VwCourseStudents.Where(v => v.CourseId == id).ToList();
+            else
+                return this.db.VwCourseStudents.ToList();
+        }
+
+        [HttpGet("CourseStudentCount")]
+        public ActionResult<IEnumerable<VwCourseStudentCount>> GetCourseStudentCount(int id)
+        {
+            if (id > 0)
+                return this.db.VwCourseStudentCount.Where(v => v.CourseId == id).ToList();
+            else
+                return this.db.VwCourseStudentCount.ToList();
+        }
+
+        
     }
 }

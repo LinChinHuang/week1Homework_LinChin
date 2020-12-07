@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Omu.ValueInjecter;
 using week1Homework_LinChin.Models;
 using week1Homework_LinChin.Models.Models;
+using Microsoft.Data.SqlClient;
 
 namespace week1Homework_LinChin.Controllers
 {
@@ -36,6 +38,7 @@ namespace week1Homework_LinChin.Controllers
         public ActionResult<Department> PostDepartment(Department model)
         {
              if (model != null) {
+                 this.db.Department.FromSqlRaw("");
                 this.db.Department.Add(model);
                 this.db.SaveChanges();
                 return Ok(model);
@@ -65,6 +68,13 @@ namespace week1Homework_LinChin.Controllers
             }
             
             return null;
+        }
+
+        [HttpGet("DepartmentCourseCount")]
+        public async Task<ActionResult<IEnumerable<VwDepartmentCourseCount>>> GetDepartmentCourseCount(int id)
+        {
+            var departmentID = new SqlParameter("@id",id);
+            return await this.db.VwDepartmentCourseCount.FromSqlRaw($"SELECT * FROM [dbo].[vwDepartmentCourseCount] WHERE DepartmentId = @id",departmentID).ToListAsync<VwDepartmentCourseCount>();
         }
     }
 }
