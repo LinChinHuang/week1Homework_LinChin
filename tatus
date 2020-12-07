@@ -1,0 +1,35 @@
+[33mcommit 785e6b5cc74e7d7bd1d29d4087bb64f06a54de81[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: LinChinHuang <dnzteyzcsak@hotmail.com>
+Date:   Mon Dec 7 17:31:36 2020 +0800
+
+    Modify Department APIs (Using SP)
+
+[33mcommit 978f1a1616294866e32c47c8b0af4aa21e57139f[m
+Author: LinChinHuang <dnzteyzcsak@hotmail.com>
+Date:   Mon Dec 7 14:20:13 2020 +0800
+
+    add a comment
+
+[33mcommit fa8d16197147fccdd822b2ff210f77ad83239155[m
+Author: fis-sallyhuang <sally.huang@fis.com.tw>
+Date:   Mon Dec 7 13:42:48 2020 +0800
+
+    Add Get APIs for 3 Views
+
+[33mcommit 0c5a8f03721eb4f8286ed7bc781d37ca42c81058[m
+Author: LinChinHuang <61148811+LinChinHuang@users.noreply.github.com>
+Date:   Mon Dec 7 06:13:24 2020 +0800
+
+    Add Other Controller APIs
+
+[33mcommit c0498aa588048d94f0e950cf3224c97f1e081f9e[m
+Author: LinChinHuang <61148811+LinChinHuang@users.noreply.github.com>
+Date:   Sun Dec 6 22:21:52 2020 +0800
+
+    Add EF Core & Course API
+
+[33mcommit 39f527b2dc2d3e46f37c3027ab2877d361978721[m
+Author: LinChinHuang <61148811+LinChinHuang@users.noreply.github.com>
+Date:   Sun Dec 6 19:51:36 2020 +0800
+
+    initial commit

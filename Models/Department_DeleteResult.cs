@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace week1Homework_LinChin.Models.Models
+namespace week1Homework_LinChin.Models
 {
     public partial class Department_DeleteResult
     {
-        public int DeleteCount {get;set;}
     }
 }

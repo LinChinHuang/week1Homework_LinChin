@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace week1Homework_LinChin.Models.Models
+namespace week1Homework_LinChin.Models
 {
     public partial class VwDepartmentCourseCount
     {

@@ -1,13 +1,8 @@
-using System;
+using Microsoft.AspNetCore.Mvc;
+using Omu.ValueInjecter;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using week1Homework_LinChin.Models;
-using week1Homework_LinChin.Models.Models;
-using Omu.ValueInjecter;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 
 namespace week1Homework_LinChin.Controllers
 {

@@ -6,7 +6,7 @@ using System;
 using System.Data.Common;
 using System.Threading.Tasks;
 
-namespace week1Homework_LinChin.Models.Models
+namespace week1Homework_LinChin.Models
 {
     public static class DbContextExtensions
     {

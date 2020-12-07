@@ -4,9 +4,9 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Data;
 using System.Threading.Tasks;
-using week1Homework_LinChin.Models.Models;
+using week1Homework_LinChin.Models;
 
-namespace week1Homework_LinChin.Models.Models
+namespace week1Homework_LinChin.Models
 {
     public partial class ContosoUniversityContextProcedures
     {

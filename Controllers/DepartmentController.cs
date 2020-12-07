@@ -1,13 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Omu.ValueInjecter;
 using week1Homework_LinChin.Models;
-using week1Homework_LinChin.Models.Models;
-using Microsoft.Data.SqlClient;
 
 
 namespace week1Homework_LinChin.Controllers
@@ -77,7 +74,7 @@ namespace week1Homework_LinChin.Controllers
                     delCount =  this.db.Database.ExecuteSqlRaw("EXEC [dbo].[Department_Delete] @DepartmentID,@RowVersion_Original",departId,oriVer);
                 }
                             
-            return new Department_DeleteResult(){ DeleteCount = delCount };
+            return new Department_DeleteResult();
         }
 
         [HttpGet("DepartmentCourseCount")]

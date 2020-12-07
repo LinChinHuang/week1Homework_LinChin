@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Omu.ValueInjecter;
+using System.Collections.Generic;
 using week1Homework_LinChin.Models;
-using week1Homework_LinChin.Models.Models;
 
 namespace week1Homework_LinChin.Controllers
 {

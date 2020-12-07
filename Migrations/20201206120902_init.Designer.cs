@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using week1Homework_LinChin.Models.Models;
+using week1Homework_LinChin.Models;
 
 namespace week1Homework_LinChin.Migrations
 {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace week1Homework_LinChin.Models.Models
+namespace week1Homework_LinChin.Models
 {
     public partial class Course
     {
@@ -22,7 +22,5 @@ namespace week1Homework_LinChin.Models.Models
         public virtual Department Department { get; set; }
         public virtual ICollection<CourseInstructor> CourseInstructor { get; set; }
         public virtual ICollection<Enrollment> Enrollment { get; set; }
-
-        
     }
 }
