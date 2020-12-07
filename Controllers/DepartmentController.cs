@@ -73,6 +73,7 @@ namespace week1Homework_LinChin.Controllers
         [HttpGet("DepartmentCourseCount")]
         public async Task<ActionResult<IEnumerable<VwDepartmentCourseCount>>> GetDepartmentCourseCount(int id)
         {
+            //FromSqlRaw + SqlParameter
             var departmentID = new SqlParameter("@id",id);
             return await this.db.VwDepartmentCourseCount.FromSqlRaw($"SELECT * FROM [dbo].[vwDepartmentCourseCount] WHERE DepartmentId = @id",departmentID).ToListAsync<VwDepartmentCourseCount>();
         }
