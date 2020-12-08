@@ -24,8 +24,8 @@ namespace week1Homework_LinChin
         {
             services.AddDbContext<ContosoUniversityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddScoped(typeof(ContosoUniversityContext), typeof( ContosoUniversityContextProcedures));
-            //services.AddScoped(typeof(ContosoUniversityContextProcedures), typeof(DepartmentController));
+
+            services.AddScoped<ContosoUniversityContextProcedures>();
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSwaggerGen(c =>
             {

@@ -15,11 +15,13 @@ namespace week1Homework_LinChin.Controllers
     public class DepartmentController : MyControllerBase
     {
         private readonly ContosoUniversityContext db;
+        private readonly ContosoUniversityContextProcedures dbsp;
 
-        public DepartmentController(ContosoUniversityContext db)
+        public DepartmentController(ContosoUniversityContext db, ContosoUniversityContextProcedures dbsp)
         {
             this.db = db;
             this.db.SavingChanges += context_SavingChanges;
+            this.dbsp = dbsp;
         }
 
         [HttpGet("")]
@@ -37,15 +39,10 @@ namespace week1Homework_LinChin.Controllers
         }
 
         [HttpPost("")]
-        public ActionResult<Department_InsertResult> PostDepartment(Department model)
+        public async Task<Department_InsertResult[]> PostDepartment(Department_InsertViewModel model)
         {
              if (model != null) {
-                 var name = new SqlParameter("@Name", model.Name);
-                 var budget = new SqlParameter("@Budget", model.Budget);
-                 var startDate = new SqlParameter("@StartDate", DateTime.Now);
-                 var instructorID = new SqlParameter("@InstructorID", model.InstructorId);
-                 this.db.Database.ExecuteSqlRaw("EXEC [dbo].[Department_Insert] @Name,@Budget,@StartDate,@InstructorID",name,budget,startDate,instructorID);
-                return Ok(model);//Department_InsertResult return object need to update
+                 return  await this.dbsp.Department_Insert(model.Name, model.Budget, model.StartDate?? DateTime.Now, model.InstructorId);
             }
             return null;
         }
@@ -67,8 +64,8 @@ namespace week1Homework_LinChin.Controllers
             return new Department_UpdateResult(){  RowVersion = department.RowVersion };
         }
 
-        [HttpDelete("{id}/{RowVersion}")]
-        public ActionResult<Department_DeleteResult> DeleteDepartmentById(int id,string RowVersion)
+        [HttpDelete("SP/{id}")]
+        public ActionResult<Department_DeleteResult> SP_DeleteDepartmentById(int id)
         {
             int delCount = 0;
                 var department = this.db.Department.Find(id);
